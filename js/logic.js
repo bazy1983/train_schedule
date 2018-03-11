@@ -64,32 +64,41 @@ $(document).ready(function () {
             for (var i = 0; i < res.val().length; i++){
                 var myDataObject = res.val()[i]; //getting objects out of array
 
-                console.log(myDataObject.tTime);
+                //console.log(myDataObject.tTime);
                 
                 var trainTimeInMinutes = parseInt(myDataObject.tTime);
-                if (currentTimeInMin-trainTimeInMinutes < 0){
+
+                if (currentTimeInMin-trainTimeInMinutes < 0){ //if initial time is higher than current time
                     var remainingMin = (currentTimeInMin-trainTimeInMinutes)*(-1),
-                        tableRemaining = $("<td class = 'text-center'>").text(remainingMin);
+                        //this will create td element with remaining time
+                        tableRemaining = $("<td class = 'text-center'>").text(remainingMin),
 
+                        x = trainFromMinuteToHours(trainTimeInMinutes),
+                        tableNextTime = $("<td class = 'text-center'>").text(x);
+                       
 
-                } else {
+                } else { //if initial time has expired
                     var frequencyNumber = parseInt(myDataObject.tFrequency);
                     //console.log(frequencyNumber);
 
                     //increment represent number of times that frequency should be increased to get the next available train
-                    var increment = Math.floor((currentTimeInMin-parseInt(myDataObject.tTime))/frequencyNumber)+1;
+                    var increment = Math.floor((currentTimeInMin-trainTimeInMinutes)/frequencyNumber)+1;
                     //newTrainTime will exceed the current time to get the next train
-                    var newTrainTime = parseInt(myDataObject.tTime)+(frequencyNumber*increment)
+                    var newTrainTimeInMin = trainTimeInMinutes+(frequencyNumber*increment)
 
-                    var remainingMin = (currentTimeInMin-newTrainTime)*(-1)%frequencyNumber,
-                        tableRemaining = $("<td class = 'text-center'>").text(remainingMin);
+                    var remainingMin = (currentTimeInMin-newTrainTimeInMin)*(-1)%frequencyNumber,
+                        tableRemaining = $("<td class = 'text-center'>").text(remainingMin),
+
+                        
+                        x = trainFromMinuteToHours(newTrainTimeInMin),
+                        tableNextTime = $("<td class = 'text-center'>").text(x);
+                    
                 }
 
                 var tableRow = $("<tr>"); // create new table row
                 var tableName = $("<th>").text(myDataObject.tName),
                     tableDestination = $("<td>").text(myDataObject.tDestination),
-                    tableFrequency = $("<td class = 'text-center'>").text(myDataObject.tFrequency),
-                    tableNextTime = $("<td>");
+                    tableFrequency = $("<td class = 'text-center'>").text(myDataObject.tFrequency);
                 tableRow.append(tableName, tableDestination, tableFrequency,tableNextTime,tableRemaining);
                 $("tbody").append(tableRow);
 
@@ -101,7 +110,7 @@ $(document).ready(function () {
         }
     })
 
-    function trainArrivalTime (tInMin){
+    function trainFromMinuteToHours(tInMin){ //converts time from minutes to hours
         var arrivalHours = Math.floor(tInMin/60),
             arrivalMinutes = tInMin%60,
             day; // store AM or PM
@@ -117,6 +126,7 @@ $(document).ready(function () {
                 arrivalMinutes = "0" + arrivalMinutes;
             }
             var finalTime = arrivalHours + ":" + arrivalMinutes + " " + day;
+            
             return finalTime
 
     };
