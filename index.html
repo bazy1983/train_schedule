@@ -20,33 +20,55 @@
 
 <body>
     <div class="container">
-        <div class="jumbotron">
-            text
+        <div class="jumbotron text-center">
+            <h1>Train Scheduler</h1>
         </div>
+        <!-- Train schedule table -->
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-light lead">
+                Current Train Schedule
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Train Name</th>
+                        <th scope="col">Destination</th>
+                        <th scope="col">Frequency(min)</th>
+                        <th scope="col">Next Arrival</th>
+                        <th scope="col">Minutes Away</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- here where all train information goes -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- train input form -->
         <div class="card">
             <div class="card-header bg-primary text-light lead">
                 Add Train
             </div>
-            <form class = "px-3">
+            <form class="px-3">
                 <div class="form-group">
-                    <label class= "mt-3" for="inputAddress2">Train Name</label>
-                    <input id = "trainName" type="text" class="form-control" id="inputAddress2" placeholder="Enter train name">
+                    <label class="mt-3" for="trainName">Train Name</label>
+                    <input id="trainName" type="text" class="form-control" placeholder="Enter train name">
                 </div>
                 <div class="form-group">
-                    <label for="inputAddress2">Destination</label>
-                    <input id = "trainDestination" type="text" class="form-control" id="inputAddress2" placeholder="Destination: City, State">
+                    <label for="trainDestination">Destination</label>
+                    <input id="trainDestination" type="text" class="form-control" placeholder="Destination: City, State">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="inputEmail4">First Train Time</label>
-                        <input id = "trainTime" type="text" class="form-control" id="inputEmail4" placeholder="Enter initial time">
+                        <label for="trainTime">First Train Time</label>
+                        <input id="trainTime" type="time" class="form-control" placeholder="Enter initial time">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="inputPassword4">Frequency</label>
-                        <input id = "trainFrequency" type="text" class="form-control" id="inputPassword4" placeholder="Enter time frequency">
+                        <label for="trainFrequency">Frequency</label>
+                        <input id="trainFrequency" type="number" class="form-control" placeholder="Enter time frequency (min)">
                     </div>
                 </div>
-                <button id = "submit" class = "mb-3 mx-3 btn btn-primary">Submit</button>
+                <button id="submit" class="mb-3 mx-3 btn btn-primary">Submit</button>
             </form>
         </div>
     </div>

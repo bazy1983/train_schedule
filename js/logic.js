@@ -12,19 +12,23 @@ $(document).ready(function () {
 
 
     var db = firebase.database();
+    //time caculation
+    var currentTime = new Date(),
+        currentHours = currentTime.getHours(),
+        currentMinutes = currentTime.getMinutes(),
+        currentTimeMin = currentHours * 60 + currentMinutes;
+        console.log(currentTimeMin);
 
     //gain focus on first input onload
     $("#trainName").focus();
     var dbIndex;
 
-    //get input values
-    var tName = $("#trainName").val().trim(),
-        tDestination = $("#trainDestination").val().trim(),
-        tTime = $("#trainTime").val().trim(),
-        tFrequency = $("#trainFrequency").val().trim();
 
+        // on submit button click
     $("#submit").on("click", function (e) {
-        e.preventDefault();
+        e.preventDefault(); //prevent page refresh
+
+        //create new object
         var train = {
             tName: $("#trainName").val().trim(),
             tDestination: $("#trainDestination").val().trim(),
