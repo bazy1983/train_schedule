@@ -17,7 +17,7 @@ $(document).ready(function () {
         currentHours = currentTime.getHours(),
         currentMinutes = currentTime.getMinutes(),
         currentTimeMin = currentHours * 60 + currentMinutes;
-        console.log(currentTimeMin);
+        //console.log("current time in minutes: " + currentTimeMin);
 
     //gain focus on first input onload
     $("#trainName").focus();
@@ -28,11 +28,21 @@ $(document).ready(function () {
     $("#submit").on("click", function (e) {
         e.preventDefault(); //prevent page refresh
 
+        //this will get the initial time and split it to hours and minutes
+        // in array and calculate total time in minutes before pass it to
+        //database
+        var initTime = $("#trainTime").val().trim(),
+            initTimeArr = initTime.split(":"),
+            initHours = parseInt(initTimeArr[0],) 
+            initMinutes = parseInt(initTimeArr[1]),
+            initTimeMinutes = initHours * 60 + initMinutes;
+            //console.log("init time in minutes: " + initTimeMinutes);
+
         //create new object
         var train = {
             tName: $("#trainName").val().trim(),
             tDestination: $("#trainDestination").val().trim(),
-            tTime: $("#trainTime").val().trim(),
+            tTime: initTimeMinutes,
             tFrequency: $("#trainFrequency").val().trim()
         };
 
