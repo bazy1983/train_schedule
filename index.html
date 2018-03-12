@@ -15,6 +15,7 @@
     <title>Train Scheduler</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -33,9 +34,9 @@
                     <tr>
                         <th scope="col">Train Name</th>
                         <th scope="col">Destination</th>
-                        <th class = "text-center" scope="col">Frequency(min)</th>
-                        <th class = "text-center" scope="col">Next Arrival</th>
-                        <th class = "text-center" scope="col">Minutes Away</th>
+                        <th class="text-center" scope="col">Frequency(min)</th>
+                        <th class="text-center" scope="col">Next Arrival</th>
+                        <th class="text-center" scope="col">Minutes Away</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,24 +76,24 @@
 
     <!-- Bootstrap Modal -->
 
-    <div id = "myModal" class="modal fade">
+    <div id="myModal" class="modal fade">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Wrong Time Input</h5>
-              
-                
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Wrong Time Input</h5>
+
+
+                </div>
+                <div class="modal-body">
+                    <p>Input correct time. Time format must be hh:mm AM or PM.</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="modalOK" type="button" class="btn btn-primary">OK</button>
+
+                </div>
             </div>
-            <div class="modal-body">
-              <p>Input correct time. Time format must be hh:mm AM or PM.</p>
-            </div>
-            <div class="modal-footer">
-              <button id = "modalOK" type="button" class="btn btn-primary">OK</button>
-              
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
 
 

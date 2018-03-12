@@ -18,7 +18,7 @@ $(document).ready(function () {
         currentHours = currentTime.getHours(),
         currentMinutes = currentTime.getMinutes(),
         currentTimeInMin = currentHours * 60 + currentMinutes;
-    console.log("current time in minutes: " + currentTimeInMin);
+    //console.log("current time in minutes: " + currentTimeInMin);
 
     //gain focus on first input onload
     $("#trainName").focus();
@@ -53,7 +53,7 @@ $(document).ready(function () {
     })
 
     db.ref("train").on("value", function (res) {
-        console.log(res.val());
+        //console.log(res.val());
         if (res.val() === null) { //if database is empty reset index
             dbIndex = 0
         } else {
@@ -131,7 +131,7 @@ $(document).ready(function () {
 
     };
 
-
+    //the next 3 lines is time input validation
     $("#trainTime").blur(function () {
         if (!$("#trainTime")[0].validity.valid || $("#trainTime").val() === "") {//if user didn't input correct time format
             $('#myModal').modal("show", true)
@@ -144,4 +144,5 @@ $(document).ready(function () {
     $('#myModal').on('hidden.bs.modal', function (e) {
         $("#trainTime").focus();
     })
+
 })
