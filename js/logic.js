@@ -22,8 +22,6 @@ $(document).ready(function () {
 
     //gain focus on first input onload
     $("#trainName").focus();
-    var dbIndex;
-
 
     // on submit button click
     $("#submit").on("click", function (e) {
@@ -53,61 +51,61 @@ $(document).ready(function () {
     })
 
     db.ref("train").on("value", getData)
-    
-    function getData (res) {
-            console.log(res.val())
-            $("tbody").empty(); //empty out the table
-            var tableRow = $("<tr>"); // create new table row
-            var keys = Object.keys(res.val())
 
-            for (var i = 0; i < keys.length; i++) {
-                var k = keys[i];
-                var myDataObject = res.val()[k]; //getting objects out of array
+    function getData(res) {
+        $("tbody").empty(); //empty out the table
+        var tableRow = $("<tr>"); // create new table row
+        var keys = Object.keys(res.val()) //extract keys from response to array
 
-                //console.log(myDataObject.tTime);
+        for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            var myDataObject = res.val()[k]; //getting objects out of keys
 
-                var trainTimeInMinutes = parseInt(myDataObject.tTime);
+            //console.log(myDataObject.tTime);
 
-                if (currentTimeInMin - trainTimeInMinutes < 0) { //if initial time is higher than current time
-                    var remainingMin = (currentTimeInMin - trainTimeInMinutes) * (-1),
-                        //this will create td element with remaining time
-                        tableRemaining = $("<td class = 'text-center'>").text(remainingMin),
+            var trainTimeInMinutes = parseInt(myDataObject.tTime);
 
-                        x = trainFromMinuteToHours(trainTimeInMinutes),
-                        tableNextTime = $("<td class = 'text-center'>").text(x);
+            if (currentTimeInMin - trainTimeInMinutes < 0) { //if initial time is higher than current time
+                var remainingMin = (currentTimeInMin - trainTimeInMinutes) * (-1),
+                    //this will create td element with remaining time
+                    tableRemaining = $("<td class = 'text-center'>").text(remainingMin),
 
-
-                } else { //if initial time has expired
-                    var frequencyNumber = parseInt(myDataObject.tFrequency);
-                    //console.log(frequencyNumber);
-
-                    //increment represent number of times that frequency should be increased to get the next available train
-                    var increment = Math.floor((currentTimeInMin - trainTimeInMinutes) / frequencyNumber) + 1;
-                    //newTrainTime will exceed the current time to get the next train
-                    var newTrainTimeInMin = trainTimeInMinutes + (frequencyNumber * increment)
-
-                    var remainingMin = (currentTimeInMin - newTrainTimeInMin) * (-1) % frequencyNumber,
-                        tableRemaining = $("<td class = 'text-center'>").text(remainingMin),
+                    x = trainFromMinuteToHours(trainTimeInMinutes),
+                    tableNextTime = $("<td class = 'text-center'>").text(x);
 
 
-                        x = trainFromMinuteToHours(newTrainTimeInMin),
-                        tableNextTime = $("<td class = 'text-center'>").text(x);
+            } else { //if initial time has expired
+                var frequencyNumber = parseInt(myDataObject.tFrequency);
+                //console.log(frequencyNumber);
 
-                }
+                //increment represent number of times that frequency should be increased to get the next available train
+                var increment = Math.floor((currentTimeInMin - trainTimeInMinutes) / frequencyNumber) + 1;
+                //newTrainTime will exceed the current time to get the next train
+                var newTrainTimeInMin = trainTimeInMinutes + (frequencyNumber * increment)
 
-                var tableRow = $("<tr>"); // create new table row
-                var tableName = $("<th>").text(myDataObject.tName),
-                    tableDestination = $("<td>").text(myDataObject.tDestination),
-                    tableFrequency = $("<td class = 'text-center'>").text(myDataObject.tFrequency);
-                tableRow.append(tableName, tableDestination, tableFrequency, tableNextTime, tableRemaining);
-                $("tbody").append(tableRow);
-
+                var remainingMin = (currentTimeInMin - newTrainTimeInMin) * (-1) % frequencyNumber,
+                    tableRemaining = $("<td class = 'text-center'>").text(remainingMin),
 
 
-                //console.log(myDataObject);
+                    x = trainFromMinuteToHours(newTrainTimeInMin),
+                    tableNextTime = $("<td class = 'text-center'>").text(x);
 
             }
-        
+
+            var tableRow = $("<tr>"); // create new table row
+            var tableName = $("<th>").text(myDataObject.tName),
+                tableDelete = $("<td dataKey= '" + k + "' class = 'text-center'>").html('<i class="text-danger fas fa-trash-alt"></i>'),
+                tableDestination = $("<td>").text(myDataObject.tDestination),
+                tableFrequency = $("<td class = 'text-center'>").text(myDataObject.tFrequency);
+            tableRow.append(tableDelete, tableName, tableDestination, tableFrequency, tableNextTime, tableRemaining);
+            $("tbody").append(tableRow);
+
+
+
+            //console.log(myDataObject);
+
+        }
+
     }
 
     function trainFromMinuteToHours(tInMin) { //converts time from minutes to hours
@@ -131,7 +129,7 @@ $(document).ready(function () {
 
     };
 
-    //the next 3 lines is time input validation
+    //the next 3 events are time input validation
     $("#trainTime").blur(function () {
         if (!$("#trainTime")[0].validity.valid || $("#trainTime").val() === "") {//if user didn't input correct time format
             $('#myModal').modal("show", true)
@@ -140,9 +138,14 @@ $(document).ready(function () {
 
     $("#modalOK").on("click", function () {
         $('#myModal').modal("hide")
-    })
+    });
     $('#myModal').on('hidden.bs.modal', function (e) {
         $("#trainTime").focus();
-    })
+    });
+
+    $("tbody").on("click", "i", function () {
+        var rowKey = $(this).parent().attr("dataKey");
+        db.ref("train/"+ rowKey).remove();
+    });
 
 })
