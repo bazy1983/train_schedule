@@ -52,7 +52,9 @@ $(document).ready(function () {
         $("#trainName").focus();
     })
 
-    db.ref("train").on("value", function (res) {
+    db.ref("train").on("value", getData)
+    
+    function getData (res) {
         //console.log(res.val());
         if (res.val() === null) { //if database is empty reset index
             dbIndex = 0
@@ -108,7 +110,7 @@ $(document).ready(function () {
 
             }
         }
-    })
+    }
 
     function trainFromMinuteToHours(tInMin) { //converts time from minutes to hours
         var arrivalHours = Math.floor(tInMin / 60),
