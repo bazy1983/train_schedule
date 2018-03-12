@@ -47,7 +47,7 @@ $(document).ready(function () {
             tFrequency: $("#trainFrequency").val().trim()
         };
 
-        db.ref("train/" + dbIndex).set(train)
+        db.ref("train").push(train)
         $("input").val("");
         $("#trainName").focus();
     })
@@ -55,16 +55,14 @@ $(document).ready(function () {
     db.ref("train").on("value", getData)
     
     function getData (res) {
-        //console.log(res.val());
-        if (res.val() === null) { //if database is empty reset index
-            dbIndex = 0
-        } else {
+            console.log(res.val())
             $("tbody").empty(); //empty out the table
-            dbIndex = res.val().length; //response length
-
             var tableRow = $("<tr>"); // create new table row
-            for (var i = 0; i < res.val().length; i++) {
-                var myDataObject = res.val()[i]; //getting objects out of array
+            var keys = Object.keys(res.val())
+
+            for (var i = 0; i < keys.length; i++) {
+                var k = keys[i];
+                var myDataObject = res.val()[k]; //getting objects out of array
 
                 //console.log(myDataObject.tTime);
 
@@ -109,7 +107,7 @@ $(document).ready(function () {
                 //console.log(myDataObject);
 
             }
-        }
+        
     }
 
     function trainFromMinuteToHours(tInMin) { //converts time from minutes to hours
